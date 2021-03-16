@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'backend/library.dart';
 
 class BackendService {
-  static const _kEndpoint = 'ws://localhost:4000/app/websocket';
+  static const _kEndpoint = 'wss://api.arigatoapp.com/app/websocket';
   PhoenixSocket _socket;
 
   static BackendService of(BuildContext context) =>

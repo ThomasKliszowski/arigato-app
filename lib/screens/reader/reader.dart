@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../protos/library.pb.dart' as protos;
 import '../../screens/reader/state.dart';
 import '../../services/backend.dart';
+import '../../widgets/reader_view.dart';
 
 class Reader extends HookWidget {
   const Reader({
@@ -30,45 +31,42 @@ class Reader extends HookWidget {
     return Provider(
       create: (_) => state,
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
-          title: Observer(
-            builder: (context) => state.manga?.title != null
-                ? Text(state.manga.title,
-                    style: const TextStyle(color: Colors.black))
-                : const SizedBox(),
-          ),
-        ),
-        body: Observer(
-          builder: (context) => state.pages?.isNotEmpty == true
-              ? PageView.builder(
-                  itemCount: state.pages.length,
-                  itemBuilder: (context, i) {
-                    final page = state.pages[i];
-                    return _Page(key: ValueKey('page-${page.id}'), page: page);
-                  },
-                )
-              : const SizedBox(),
+        backgroundColor: Colors.grey[900],
+        body: Stack(
+          fit: StackFit.passthrough,
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => state.toggleShowUI(),
+              child: Observer(builder: (context) {
+                return state.pages?.isNotEmpty == true
+                    ? ReaderView(
+                        itemCount: state.pages.length,
+                        getPhotoUrl: (i) => state.pages[i].url,
+                      )
+                    : const SizedBox();
+              }),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Observer(
+                builder: (context) => state.uiIsVisible
+                    ? AppBar(
+                        title: Text(
+                          state.manga.title,
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                        iconTheme: const IconThemeData(color: Colors.black),
+                        backgroundColor: Colors.white,
+                      )
+                    : const SizedBox(),
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
-}
-
-class _Page extends StatelessWidget {
-  const _Page({
-    Key key,
-    this.page,
-  }) : super(key: key);
-
-  final protos.Page page;
-
-  @override
-  Widget build(BuildContext context) {
-    return InteractiveViewer(
-      child: CachedNetworkImage(imageUrl: page.url),
     );
   }
 }

@@ -22,6 +22,13 @@ abstract class ReaderStateBase with Store {
   @observable
   List<protos.Page> pages;
 
+  @observable
+  bool uiIsVisible = false;
+
+  void hideUI() => uiIsVisible = false;
+  void showUI() => uiIsVisible = true;
+  void toggleShowUI() => uiIsVisible = !uiIsVisible;
+
   Future<void> initialize() async {
     final mangaRequest = backend.library.getManga(mangaId);
     final pagesRequest = backend.library.getChapterPages(chapterId);

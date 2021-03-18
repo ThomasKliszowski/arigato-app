@@ -39,11 +39,27 @@ mixin _$ReaderState on ReaderStateBase, Store {
     });
   }
 
+  final _$uiIsVisibleAtom = Atom(name: 'ReaderStateBase.uiIsVisible');
+
+  @override
+  bool get uiIsVisible {
+    _$uiIsVisibleAtom.reportRead();
+    return super.uiIsVisible;
+  }
+
+  @override
+  set uiIsVisible(bool value) {
+    _$uiIsVisibleAtom.reportWrite(value, super.uiIsVisible, () {
+      super.uiIsVisible = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 manga: ${manga},
-pages: ${pages}
+pages: ${pages},
+uiIsVisible: ${uiIsVisible}
     ''';
   }
 }

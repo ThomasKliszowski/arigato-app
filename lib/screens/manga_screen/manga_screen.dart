@@ -26,31 +26,23 @@ class MangaScreen extends HookWidget {
     return Provider(
       create: (_) => state,
       child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (context, _) => [
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverToBoxAdapter(
-                child: AspectRatio(
-                  aspectRatio: 2 / 3,
+        body: Stack(
+          fit: StackFit.passthrough,
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
                   child: Observer(
                     builder: (context) => state.manga?.cover != null
                         ? CachedNetworkImage(
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.topCenter,
                             imageUrl: state.manga.cover,
-                          )
-                        : Container(color: Colors.grey[200]),
+                            height: MediaQuery.of(context).size.height * 0.6)
+                        : Container(
+                            color: Colors.grey[200],
+                            height: MediaQuery.of(context).size.height * 0.6),
                   ),
-                ),
-              ),
-            )
-          ],
-          body: Builder(
-            builder: (context) => CustomScrollView(
-              slivers: [
-                SliverOverlapInjector(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 ),
                 SliverToBoxAdapter(
                   child: Padding(
@@ -93,7 +85,12 @@ class MangaScreen extends HookWidget {
                 const _Chapters()
               ],
             ),
-          ),
+            Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: AppBar(backgroundColor: Colors.transparent)),
+          ],
         ),
       ),
     );

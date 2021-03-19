@@ -15,6 +15,7 @@ abstract class ReaderStateBase with Store {
   final BackendService backend;
   final String mangaId;
   final String chapterId;
+  PageController pageController;
 
   @observable
   protos.Manga manga;
@@ -25,18 +26,31 @@ abstract class ReaderStateBase with Store {
   @observable
   bool uiIsVisible = false;
 
-  void hideUI() => uiIsVisible = false;
-  void showUI() => uiIsVisible = true;
+  void hideUI() {
+    if (uiIsVisible == true) {
+      uiIsVisible = false;
+    }
+  }
+
+  void showUI() {
+    if (uiIsVisible == false) {
+      uiIsVisible = true;
+    }
+  }
+
   void toggleShowUI() => uiIsVisible = !uiIsVisible;
 
   Future<void> initialize() async {
+    pageController = PageController();
     final mangaRequest = backend.library.getManga(mangaId);
     final pagesRequest = backend.library.getChapterPages(chapterId);
     manga = await mangaRequest;
     pages = (await pagesRequest).pages;
   }
 
-  Future<void> dispose() async {}
+  Future<void> dispose() async {
+    pageController.dispose();
+  }
 }
 
 class ReaderStateHook extends hooks.Hook<ReaderState> {

@@ -133,6 +133,7 @@ class _Chapter extends StatelessWidget {
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () => AutoRouter.of(context).push(ReaderRoute(
           mangaId: chapter.mangaId,
           chapterId: chapter.id,

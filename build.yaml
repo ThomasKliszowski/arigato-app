@@ -1,0 +1,33 @@
+targets:
+  $default:
+    builders:
+      # disable the default generator and enable the one emitting a .moor.dart file
+      moor_generator:
+        enabled: false
+      moor_generator|moor_generator_not_shared:
+        enabled: true
+        options:
+          eagerly_load_dart_ast: true
+          generate_connect_constructor: true
+          sqlite_modules:
+            - json1
+            - fts5
+            - moor_ffi
+
+      # Run built_value_generator when moor is done, which is not in this target.
+      mobx_codegen:mobx_generator:
+        enabled: false
+      source_gen:combining_builder:
+        enabled: false
+      json_serializable:json_serializable:
+        enabled: false
+      auto_route_generator:autoRouteGenerator:
+        enabled: false
+  run_other_generators:
+    dependencies: ["moor_generator"]
+    builders:
+      # Disable moor builders. By default, those would run on each target
+      moor_generator:
+        enabled: false
+      moor_generator|preparing_builder:
+        enabled: false

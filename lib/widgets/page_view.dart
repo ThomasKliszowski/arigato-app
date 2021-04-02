@@ -287,6 +287,7 @@ class _CustomPageViewState extends State<CustomPageView> {
       case Axis.vertical:
         return widget.reverse ? AxisDirection.up : AxisDirection.down;
     }
+    return null;
   }
 
   @override
@@ -419,6 +420,7 @@ class PageScrollPhysics extends ScrollPhysics {
   bool get allowImplicitScrolling => false;
 }
 
+// ignore: unused_element
 class _PagePosition extends ScrollPositionWithSingleContext
     implements PageMetrics {
   _PagePosition({

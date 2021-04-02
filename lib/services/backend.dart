@@ -2,24 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 import 'package:provider/provider.dart';
 
+import '../services/backend/terminal.dart';
+import '../services/secureStorage.dart';
 import 'backend/library.dart';
 
 class BackendService {
-  static const _kEndpoint = 'wss://api.arigatoapp.com/app/websocket';
+  static const kWssEndpoint = 'wss://api.arigatoapp.com/app/websocket';
+  static const kHttpsEndpoint = 'https://api.arigatoapp.com/v1';
   PhoenixSocket _socket;
 
   static BackendService of(BuildContext context) =>
       Provider.of<BackendService>(context, listen: false);
 
   final library = BackendLibrary();
+  final terminal = BackendTerminal();
 
   Future<void> connect() async {
-    _socket?.close();
+    close();
 
-    _socket = PhoenixSocket(_kEndpoint,
+    final terminalToken = await SecureStorage.getTerminalToken();
+    _socket = PhoenixSocket(kWssEndpoint,
         socketOptions: PhoenixSocketOptions(
           dynamicParams: () async => {
             'accept-language': 'fr-FR',
+            'terminal-token': terminalToken,
           },
         ));
 
@@ -27,5 +33,8 @@ class BackendService {
     await library.join(_socket);
   }
 
-  void close() => _socket?.close();
+  void close() {
+    _socket?.close();
+    _socket?.dispose();
+  }
 }

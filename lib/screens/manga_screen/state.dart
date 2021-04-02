@@ -10,7 +10,11 @@ part 'state.g.dart';
 class MangasScreenState = MangasScreenStateBase with _$MangasScreenState;
 
 abstract class MangasScreenStateBase with Store {
-  MangasScreenStateBase(this.backend, this.mangaId);
+  MangasScreenStateBase({
+    this.backend,
+    this.manga,
+    this.mangaId,
+  });
 
   final BackendService backend;
   final String mangaId;
@@ -32,9 +36,14 @@ abstract class MangasScreenStateBase with Store {
 }
 
 class MangasScreenStateHook extends hooks.Hook<MangasScreenState> {
-  const MangasScreenStateHook(this.backend, this.mangaId);
+  const MangasScreenStateHook({
+    this.backend,
+    this.manga,
+    this.mangaId,
+  });
 
   final BackendService backend;
+  final Manga manga;
   final String mangaId;
 
   @override
@@ -48,7 +57,11 @@ class _MangasScreenStateHookState
   @override
   void initHook() {
     super.initHook();
-    _state = MangasScreenState(hook.backend, hook.mangaId)..initialize();
+    _state = MangasScreenState(
+      backend: hook.backend,
+      manga: hook.manga,
+      mangaId: hook.mangaId,
+    )..initialize();
   }
 
   @override

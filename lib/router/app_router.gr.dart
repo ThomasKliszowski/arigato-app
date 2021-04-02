@@ -7,6 +7,7 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i6;
 
+import '../protos/library.pb.dart' as _i7;
 import '../screens/manga_list_screen/mangas_list_screen.dart' as _i2;
 import '../screens/manga_screen/manga_screen.dart' as _i3;
 import '../screens/reader/reader.dart' as _i4;
@@ -25,7 +26,8 @@ class AppRouter extends _i1.RootStackRouter {
       var route = entry.routeData.as<MangaRoute>();
       return _i1.MaterialPageX(
           entry: entry,
-          child: _i3.MangaScreen(key: route.key, mangaId: route.mangaId));
+          child: _i3.MangaScreen(
+              key: route.key, mangaId: route.mangaId, manga: route.manga));
     },
     ReaderRoute.name: (entry) {
       var route = entry.routeData.as<ReaderRoute>();
@@ -34,7 +36,9 @@ class AppRouter extends _i1.RootStackRouter {
           child: _i4.Reader(
               key: route.key,
               mangaId: route.mangaId,
-              chapterId: route.chapterId),
+              chapterId: route.chapterId,
+              manga: route.manga,
+              chapter: route.chapter),
           fullscreenDialog: true);
     },
     UnknownRoute.name: (entry) {
@@ -67,23 +71,27 @@ class MangasListRoute extends _i1.PageRouteInfo {
 }
 
 class MangaRoute extends _i1.PageRouteInfo {
-  MangaRoute({this.key, this.mangaId})
+  MangaRoute({this.key, this.mangaId, this.manga})
       : super(name, path: '/manga/:mangaId', params: {'mangaId': mangaId});
 
   MangaRoute.fromMatch(_i1.RouteMatch match)
       : key = null,
         mangaId = match.pathParams.getString('mangaId'),
+        manga = null,
         super.fromMatch(match);
 
   final _i6.Key key;
 
   final String mangaId;
 
+  final _i7.Manga manga;
+
   static const String name = 'MangaRoute';
 }
 
 class ReaderRoute extends _i1.PageRouteInfo {
-  ReaderRoute({this.key, this.mangaId, this.chapterId})
+  ReaderRoute(
+      {this.key, this.mangaId, this.chapterId, this.manga, this.chapter})
       : super(name,
             path: '/manga/:mangaId/chapter/:chapterId/read',
             params: {'mangaId': mangaId, 'chapterId': chapterId});
@@ -92,6 +100,8 @@ class ReaderRoute extends _i1.PageRouteInfo {
       : key = null,
         mangaId = match.pathParams.getString('mangaId'),
         chapterId = match.pathParams.getString('chapterId'),
+        manga = null,
+        chapter = null,
         super.fromMatch(match);
 
   final _i6.Key key;
@@ -99,6 +109,10 @@ class ReaderRoute extends _i1.PageRouteInfo {
   final String mangaId;
 
   final String chapterId;
+
+  final _i7.Manga manga;
+
+  final _i7.Chapter chapter;
 
   static const String name = 'ReaderRoute';
 }

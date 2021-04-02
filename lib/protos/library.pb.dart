@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: library.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -26,14 +26,14 @@ class Manga extends $pb.GeneratedMessage {
 
   Manga._() : super();
   factory Manga({
-    $core.String id,
-    $core.String cover,
-    $core.String description,
-    $core.String title,
-    $core.Iterable<$core.String> otherTitles,
-    $core.Iterable<$core.String> authors,
-    $core.String lastChapter,
-    $core.String lastVolume,
+    $core.String? id,
+    $core.String? cover,
+    $core.String? description,
+    $core.String? title,
+    $core.Iterable<$core.String>? otherTitles,
+    $core.Iterable<$core.String>? authors,
+    $core.String? lastChapter,
+    $core.String? lastVolume,
   }) {
     final _result = create();
     if (id != null) {
@@ -81,7 +81,7 @@ class Manga extends $pb.GeneratedMessage {
   static $pb.PbList<Manga> createRepeated() => $pb.PbList<Manga>();
   @$core.pragma('dart2js:noInline')
   static Manga getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Manga>(create);
-  static Manga _defaultInstance;
+  static Manga? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get id => $_getSZ(0);
@@ -147,7 +147,7 @@ class Manga extends $pb.GeneratedMessage {
 class Chapter extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Chapter', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'grpc.library'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
-    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'number', $pb.PbFieldType.O3)
+    ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'number', $pb.PbFieldType.OF)
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'title')
     ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'description')
     ..aOM<$0.Timestamp>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'publicationDate', subBuilder: $0.Timestamp.create)
@@ -160,15 +160,15 @@ class Chapter extends $pb.GeneratedMessage {
 
   Chapter._() : super();
   factory Chapter({
-    $core.String id,
-    $core.int number,
-    $core.String title,
-    $core.String description,
-    $0.Timestamp publicationDate,
-    $core.String cover,
-    $core.bool isLicensed,
-    $core.int pageCount,
-    $core.String mangaId,
+    $core.String? id,
+    $core.double? number,
+    $core.String? title,
+    $core.String? description,
+    $0.Timestamp? publicationDate,
+    $core.String? cover,
+    $core.bool? isLicensed,
+    $core.int? pageCount,
+    $core.String? mangaId,
   }) {
     final _result = create();
     if (id != null) {
@@ -219,7 +219,7 @@ class Chapter extends $pb.GeneratedMessage {
   static $pb.PbList<Chapter> createRepeated() => $pb.PbList<Chapter>();
   @$core.pragma('dart2js:noInline')
   static Chapter getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Chapter>(create);
-  static Chapter _defaultInstance;
+  static Chapter? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get id => $_getSZ(0);
@@ -231,9 +231,9 @@ class Chapter extends $pb.GeneratedMessage {
   void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.int get number => $_getIZ(1);
+  $core.double get number => $_getN(1);
   @$pb.TagNumber(2)
-  set number($core.int v) { $_setSignedInt32(1, v); }
+  set number($core.double v) { $_setFloat(1, v); }
   @$pb.TagNumber(2)
   $core.bool hasNumber() => $_has(1);
   @$pb.TagNumber(2)
@@ -316,10 +316,10 @@ class Page extends $pb.GeneratedMessage {
 
   Page._() : super();
   factory Page({
-    $core.String id,
-    $core.int number,
-    $core.String url,
-    $core.String chapterId,
+    $core.String? id,
+    $core.int? number,
+    $core.String? url,
+    $core.String? chapterId,
   }) {
     final _result = create();
     if (id != null) {
@@ -355,7 +355,7 @@ class Page extends $pb.GeneratedMessage {
   static $pb.PbList<Page> createRepeated() => $pb.PbList<Page>();
   @$core.pragma('dart2js:noInline')
   static Page getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Page>(create);
-  static Page _defaultInstance;
+  static Page? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get id => $_getSZ(0);
@@ -402,7 +402,7 @@ class MangaRequest extends $pb.GeneratedMessage {
 
   MangaRequest._() : super();
   factory MangaRequest({
-    $core.String id,
+    $core.String? id,
   }) {
     final _result = create();
     if (id != null) {
@@ -429,7 +429,7 @@ class MangaRequest extends $pb.GeneratedMessage {
   static $pb.PbList<MangaRequest> createRepeated() => $pb.PbList<MangaRequest>();
   @$core.pragma('dart2js:noInline')
   static MangaRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MangaRequest>(create);
-  static MangaRequest _defaultInstance;
+  static MangaRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get id => $_getSZ(0);
@@ -467,7 +467,7 @@ class MangasRequest extends $pb.GeneratedMessage {
   static $pb.PbList<MangasRequest> createRepeated() => $pb.PbList<MangasRequest>();
   @$core.pragma('dart2js:noInline')
   static MangasRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MangasRequest>(create);
-  static MangasRequest _defaultInstance;
+  static MangasRequest? _defaultInstance;
 }
 
 class MangasReply extends $pb.GeneratedMessage {
@@ -478,7 +478,7 @@ class MangasReply extends $pb.GeneratedMessage {
 
   MangasReply._() : super();
   factory MangasReply({
-    $core.Iterable<Manga> mangas,
+    $core.Iterable<Manga>? mangas,
   }) {
     final _result = create();
     if (mangas != null) {
@@ -505,10 +505,57 @@ class MangasReply extends $pb.GeneratedMessage {
   static $pb.PbList<MangasReply> createRepeated() => $pb.PbList<MangasReply>();
   @$core.pragma('dart2js:noInline')
   static MangasReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MangasReply>(create);
-  static MangasReply _defaultInstance;
+  static MangasReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<Manga> get mangas => $_getList(0);
+}
+
+class ChapterRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ChapterRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'grpc.library'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..hasRequiredFields = false
+  ;
+
+  ChapterRequest._() : super();
+  factory ChapterRequest({
+    $core.String? id,
+  }) {
+    final _result = create();
+    if (id != null) {
+      _result.id = id;
+    }
+    return _result;
+  }
+  factory ChapterRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ChapterRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ChapterRequest clone() => ChapterRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ChapterRequest copyWith(void Function(ChapterRequest) updates) => super.copyWith((message) => updates(message as ChapterRequest)) as ChapterRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ChapterRequest create() => ChapterRequest._();
+  ChapterRequest createEmptyInstance() => create();
+  static $pb.PbList<ChapterRequest> createRepeated() => $pb.PbList<ChapterRequest>();
+  @$core.pragma('dart2js:noInline')
+  static ChapterRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChapterRequest>(create);
+  static ChapterRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
 }
 
 class ChaptersRequest extends $pb.GeneratedMessage {
@@ -519,7 +566,7 @@ class ChaptersRequest extends $pb.GeneratedMessage {
 
   ChaptersRequest._() : super();
   factory ChaptersRequest({
-    $core.String mangaId,
+    $core.String? mangaId,
   }) {
     final _result = create();
     if (mangaId != null) {
@@ -546,7 +593,7 @@ class ChaptersRequest extends $pb.GeneratedMessage {
   static $pb.PbList<ChaptersRequest> createRepeated() => $pb.PbList<ChaptersRequest>();
   @$core.pragma('dart2js:noInline')
   static ChaptersRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChaptersRequest>(create);
-  static ChaptersRequest _defaultInstance;
+  static ChaptersRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get mangaId => $_getSZ(0);
@@ -566,7 +613,7 @@ class ChaptersReply extends $pb.GeneratedMessage {
 
   ChaptersReply._() : super();
   factory ChaptersReply({
-    $core.Iterable<Chapter> chapters,
+    $core.Iterable<Chapter>? chapters,
   }) {
     final _result = create();
     if (chapters != null) {
@@ -593,7 +640,7 @@ class ChaptersReply extends $pb.GeneratedMessage {
   static $pb.PbList<ChaptersReply> createRepeated() => $pb.PbList<ChaptersReply>();
   @$core.pragma('dart2js:noInline')
   static ChaptersReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChaptersReply>(create);
-  static ChaptersReply _defaultInstance;
+  static ChaptersReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<Chapter> get chapters => $_getList(0);
@@ -607,7 +654,7 @@ class ChapterPagesRequest extends $pb.GeneratedMessage {
 
   ChapterPagesRequest._() : super();
   factory ChapterPagesRequest({
-    $core.String chapterId,
+    $core.String? chapterId,
   }) {
     final _result = create();
     if (chapterId != null) {
@@ -634,7 +681,7 @@ class ChapterPagesRequest extends $pb.GeneratedMessage {
   static $pb.PbList<ChapterPagesRequest> createRepeated() => $pb.PbList<ChapterPagesRequest>();
   @$core.pragma('dart2js:noInline')
   static ChapterPagesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChapterPagesRequest>(create);
-  static ChapterPagesRequest _defaultInstance;
+  static ChapterPagesRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get chapterId => $_getSZ(0);
@@ -654,7 +701,7 @@ class ChapterPagesReply extends $pb.GeneratedMessage {
 
   ChapterPagesReply._() : super();
   factory ChapterPagesReply({
-    $core.Iterable<Page> pages,
+    $core.Iterable<Page>? pages,
   }) {
     final _result = create();
     if (pages != null) {
@@ -681,7 +728,7 @@ class ChapterPagesReply extends $pb.GeneratedMessage {
   static $pb.PbList<ChapterPagesReply> createRepeated() => $pb.PbList<ChapterPagesReply>();
   @$core.pragma('dart2js:noInline')
   static ChapterPagesReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChapterPagesReply>(create);
-  static ChapterPagesReply _defaultInstance;
+  static ChapterPagesReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<Page> get pages => $_getList(0);

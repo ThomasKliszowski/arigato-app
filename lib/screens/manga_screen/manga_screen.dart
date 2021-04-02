@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-import '../../protos/library.pb.dart';
+import '../../protos/library.pb.dart' as protos;
 import '../../router/app_router.gr.dart';
 import '../../screens/manga_screen/state.dart';
 import '../../services/backend.dart';
@@ -14,14 +14,19 @@ class MangaScreen extends HookWidget {
   const MangaScreen({
     Key key,
     @PathParam('mangaId') this.mangaId,
+    this.manga,
   }) : super(key: key);
 
   final String mangaId;
+  final protos.Manga manga;
 
   @override
   Widget build(BuildContext context) {
-    final state =
-        use(MangasScreenStateHook(BackendService.of(context), mangaId));
+    final state = use(MangasScreenStateHook(
+      backend: BackendService.of(context),
+      manga: manga,
+      mangaId: mangaId,
+    ));
 
     return Provider(
       create: (_) => state,
@@ -82,7 +87,8 @@ class MangaScreen extends HookWidget {
                             color: Colors.black, fontWeight: FontWeight.bold)),
                   ),
                 ),
-                const _Chapters()
+                const _Chapters(),
+                const SliverToBoxAdapter(child: SizedBox(height: 40)),
               ],
             ),
             Positioned(
@@ -102,20 +108,28 @@ class _Chapters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<MangasScreenState>(context);
+    final state = Provider.of<MangasScreenState>(context, listen: false);
     return Observer(
       builder: (context) => state.chapters?.isEmpty == false
-          ? SliverList(
-              delegate: SliverChildBuilderDelegate(
-              (context, i) {
-                final chapter = state.chapters[i];
-                return _Chapter(
-                  key: ValueKey('chapter-${chapter.id}'),
-                  chapter: chapter,
-                );
-              },
-              childCount: state.chapters.length,
-            ))
+          ? SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, i) {
+                      final chapter = state.chapters[i];
+                      return _Chapter(
+                        key: ValueKey('chapter-${chapter.id}'),
+                        chapter: chapter,
+                      );
+                    },
+                    childCount: state.chapters.length,
+                  )),
+            )
           : const SliverToBoxAdapter(child: SizedBox()),
     );
   }
@@ -124,34 +138,29 @@ class _Chapters extends StatelessWidget {
 class _Chapter extends StatelessWidget {
   const _Chapter({Key key, this.chapter}) : super(key: key);
 
-  final Chapter chapter;
+  final protos.Chapter chapter;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => AutoRouter.of(context).push(ReaderRoute(
-          mangaId: chapter.mangaId,
-          chapterId: chapter.id,
-        )),
-        child: Row(
-          children: [
-            Text(chapter.title, style: const TextStyle(color: Colors.black)),
-            const SizedBox(width: 10),
-            Text('${chapter.pageCount} pages',
-                style: TextStyle(color: Colors.grey[400])),
-            Expanded(
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey[300],
-                    ))),
-          ],
+    final state = Provider.of<MangasScreenState>(context, listen: false);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => AutoRouter.of(context).push(ReaderRoute(
+        mangaId: chapter.mangaId,
+        chapterId: chapter.id,
+        manga: state.manga,
+        chapter: chapter,
+      )),
+      child: Container(
+        color: Colors.grey[100],
+        child: Center(
+          child: Text(
+            chapter.number.toStringAsFixed(0),
+            style: Theme.of(context).textTheme.subtitle2.copyWith(
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+          ),
         ),
       ),
     );

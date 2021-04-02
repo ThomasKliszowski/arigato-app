@@ -22,6 +22,11 @@ class BackendLibrary {
     return _request('getMangas', MangasRequest(), MangasReply.create());
   }
 
+  Future<Chapter> getChapter(String chapterId) async {
+    return _request(
+        'getChapter', ChapterRequest(id: chapterId), Chapter.create());
+  }
+
   Future<ChaptersReply> getChapters(String mangaId) async {
     return _request('getChapters', ChaptersRequest(mangaId: mangaId),
         ChaptersReply.create());

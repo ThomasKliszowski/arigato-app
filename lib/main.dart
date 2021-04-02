@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'application.dart';
 import 'database/database.dart';
 import 'services/backend.dart';
+import 'services/terminal.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ Future<void> main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
 
+  await TerminalService.ensureTerminalCreated(backend);
   await Future.wait([
     backend.connect(),
   ]);

@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   cached_network_image: ^2.5.0
   google_fonts: ^1.1.2
@@ -32,12 +34,17 @@ dependencies:
   phoenix_socket: ^0.4.11
   provider: ^4.3.3
   flutter_hooks: ^0.15.0
-  auto_route: ^1.0.0-beta.9
+  auto_route: ^1.0.2
   photo_view: ^0.11.1
   scrollable_positioned_list: ^0.1.10
   dartx: ^0.7.0
   moor: ^4.2.1
   moor_flutter: ^4.0.0
+  uuid: ^3.0.2
+  dio: ^3.0.10
+  flutter_secure_storage: ^4.1.0
+  intl: any
+  json_annotation: any
   sqlite3_flutter_libs: any
 
 dev_dependencies:
@@ -46,10 +53,17 @@ dev_dependencies:
 
   pedantic: any
   build_runner: any
-  json_serializable: any
+  json_serializable: 3.5.1
   mobx_codegen: any
-  auto_route_generator: any
-  moor_generator: any
+  auto_route_generator: 1.0.0-beta.10
+  moor_generator: 3.4.0
+
+dependency_overrides:
+  moor: 3.4.0
+  moor_flutter: 3.1.0
+  json_annotation: 3.1.1
+  crypto: 3.0.0
+  auto_route: 1.0.0-beta.10
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

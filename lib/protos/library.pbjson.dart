@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: library.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
 
 import 'dart:core' as $core;
@@ -30,7 +30,7 @@ const Chapter$json = const {
   '1': 'Chapter',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'number', '3': 2, '4': 1, '5': 5, '10': 'number'},
+    const {'1': 'number', '3': 2, '4': 1, '5': 2, '10': 'number'},
     const {'1': 'title', '3': 3, '4': 1, '5': 9, '10': 'title'},
     const {'1': 'description', '3': 4, '4': 1, '5': 9, '10': 'description'},
     const {'1': 'publication_date', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'publicationDate'},
@@ -42,7 +42,7 @@ const Chapter$json = const {
 };
 
 /// Descriptor for `Chapter`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List chapterDescriptor = $convert.base64Decode('CgdDaGFwdGVyEg4KAmlkGAEgASgJUgJpZBIWCgZudW1iZXIYAiABKAVSBm51bWJlchIUCgV0aXRsZRgDIAEoCVIFdGl0bGUSIAoLZGVzY3JpcHRpb24YBCABKAlSC2Rlc2NyaXB0aW9uEkUKEHB1YmxpY2F0aW9uX2RhdGUYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUg9wdWJsaWNhdGlvbkRhdGUSFAoFY292ZXIYBiABKAlSBWNvdmVyEh8KC2lzX2xpY2Vuc2VkGAcgASgIUgppc0xpY2Vuc2VkEh0KCnBhZ2VfY291bnQYCCABKAVSCXBhZ2VDb3VudBIZCghtYW5nYV9pZBgJIAEoCVIHbWFuZ2FJZA==');
+final $typed_data.Uint8List chapterDescriptor = $convert.base64Decode('CgdDaGFwdGVyEg4KAmlkGAEgASgJUgJpZBIWCgZudW1iZXIYAiABKAJSBm51bWJlchIUCgV0aXRsZRgDIAEoCVIFdGl0bGUSIAoLZGVzY3JpcHRpb24YBCABKAlSC2Rlc2NyaXB0aW9uEkUKEHB1YmxpY2F0aW9uX2RhdGUYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUg9wdWJsaWNhdGlvbkRhdGUSFAoFY292ZXIYBiABKAlSBWNvdmVyEh8KC2lzX2xpY2Vuc2VkGAcgASgIUgppc0xpY2Vuc2VkEh0KCnBhZ2VfY291bnQYCCABKAVSCXBhZ2VDb3VudBIZCghtYW5nYV9pZBgJIAEoCVIHbWFuZ2FJZA==');
 @$core.Deprecated('Use pageDescriptor instead')
 const Page$json = const {
   '1': 'Page',
@@ -83,6 +83,16 @@ const MangasReply$json = const {
 
 /// Descriptor for `MangasReply`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List mangasReplyDescriptor = $convert.base64Decode('CgtNYW5nYXNSZXBseRIrCgZtYW5nYXMYASADKAsyEy5ncnBjLmxpYnJhcnkuTWFuZ2FSBm1hbmdhcw==');
+@$core.Deprecated('Use chapterRequestDescriptor instead')
+const ChapterRequest$json = const {
+  '1': 'ChapterRequest',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+  ],
+};
+
+/// Descriptor for `ChapterRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List chapterRequestDescriptor = $convert.base64Decode('Cg5DaGFwdGVyUmVxdWVzdBIOCgJpZBgBIAEoCVICaWQ=');
 @$core.Deprecated('Use chaptersRequestDescriptor instead')
 const ChaptersRequest$json = const {
   '1': 'ChaptersRequest',

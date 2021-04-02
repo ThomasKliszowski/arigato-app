@@ -5,6 +5,8 @@ class ArigatoStyle {
   static final theme = ThemeData(
     primarySwatch: Colors.blue,
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    textTheme: GoogleFonts.openSansTextTheme(),
+    textTheme: GoogleFonts.openSansTextTheme().copyWith(
+      caption: GoogleFonts.openSansCondensed(),
+    ),
   );
 }

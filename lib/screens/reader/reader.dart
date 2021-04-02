@@ -6,6 +6,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
+import '../../database/database.dart';
+import '../../protos/library.pb.dart' as protos;
 import '../../screens/reader/state.dart';
 import '../../services/backend.dart';
 import '../../widgets/reader_explorer/reader_explorer.dart';
@@ -16,12 +18,15 @@ class Reader extends StatefulHookWidget {
     Key key,
     @PathParam('mangaId') this.mangaId,
     @PathParam('chapterId') this.chapterId,
+    this.manga,
+    this.chapter,
   }) : super(key: key);
 
   static const animationDuration = Duration(milliseconds: 200);
-
   final String mangaId;
   final String chapterId;
+  final protos.Manga manga;
+  final protos.Chapter chapter;
 
   @override
   _ReaderState createState() => _ReaderState();
@@ -31,9 +36,12 @@ class _ReaderState extends State<Reader> {
   @override
   Widget build(BuildContext context) {
     final state = use(ReaderStateHook(
-      BackendService.of(context),
-      widget.mangaId,
-      widget.chapterId,
+      database: Database.of(context),
+      backend: BackendService.of(context),
+      mangaId: widget.mangaId,
+      chapterId: widget.chapterId,
+      manga: widget.manga,
+      chapter: widget.chapter,
     ));
 
     return Provider(
@@ -63,7 +71,7 @@ class _ReaderView extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: () => state.toggleShowUI(),
       child: Observer(builder: (context) {
-        return state.pages?.isNotEmpty == true
+        return state.pageController != null && state.pages?.isNotEmpty == true
             ? ReaderView(
                 itemCount: state.pages.length,
                 getPhotoUrl: (i) => state.pages[i].url,
@@ -125,10 +133,14 @@ class _Explorer extends StatelessWidget {
             opacity: state.uiIsVisible ? 1 : 0,
             child: SizedBox(
               height: height,
-              child: ReaderExplorer(
-                itemCount: state.pages?.length ?? 0,
-                getPhotoUrl: (i) => state.pages[i].url,
-                pageController: state.pageController,
+              child: Observer(
+                builder: (context) => state.pageController != null
+                    ? ReaderExplorer(
+                        itemCount: state.pages?.length ?? 0,
+                        getPhotoUrl: (i) => state.pages[i].url,
+                        pageController: state.pageController,
+                      )
+                    : const SizedBox(),
               ),
             ),
           );

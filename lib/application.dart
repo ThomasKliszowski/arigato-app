@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'router/app_router.gr.dart';
 import 'style.dart';
@@ -20,6 +21,11 @@ class _ApplicationState extends State<Application> {
       theme: ArigatoStyle.theme,
       routerDelegate: appRouter.delegate(),
       routeInformationParser: appRouter.defaultRouteParser(),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
   }
 }

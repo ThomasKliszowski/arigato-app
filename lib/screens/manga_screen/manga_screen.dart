@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -93,10 +95,14 @@ class MangaScreen extends HookWidget {
               ],
             ),
             Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: AppBar(backgroundColor: Colors.transparent)),
+              top: 0,
+              left: 0,
+              right: 0,
+              child: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.black12,
+              ),
+            ),
           ],
         ),
       ),

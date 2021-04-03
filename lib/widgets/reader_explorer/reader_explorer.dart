@@ -36,6 +36,8 @@ class _ReaderExplorerState extends State<ReaderExplorer> {
           boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)],
         ),
         child: ScrollablePositionedList.separated(
+          initialScrollIndex: state.currentPage,
+          initialAlignment: 0.1,
           itemScrollController: state.scrollController,
           itemPositionsListener: state.scrollListener,
           padding: const EdgeInsets.all(20),

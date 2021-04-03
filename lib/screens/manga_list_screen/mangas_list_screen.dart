@@ -226,12 +226,16 @@ class _MangaItem extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
               child: manga.cover?.isNotEmpty == true
                   ? CachedNetworkImage(
                       fit: BoxFit.cover,
                       imageUrl: manga.cover,
                     )
-                  : Container(color: Colors.grey[200])),
+                  : Container(color: Colors.grey[200]),
+            ),
+          ),
           const SizedBox(height: 2),
           Text(
             manga.title,

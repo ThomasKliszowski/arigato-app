@@ -94,17 +94,20 @@ class _AppBar extends StatelessWidget {
       left: 0,
       right: 0,
       child: Observer(builder: (context) {
-        return AnimatedOpacity(
-          curve: Curves.decelerate,
-          duration: Reader.animationDuration,
-          opacity: state.uiIsVisible ? 1 : 0,
-          child: AppBar(
-            title: Text(
-              state.manga?.title ?? '',
-              style: const TextStyle(color: Colors.black),
+        return IgnorePointer(
+          ignoring: !state.uiIsVisible,
+          child: AnimatedOpacity(
+            curve: Curves.decelerate,
+            duration: Reader.animationDuration,
+            opacity: state.uiIsVisible ? 1 : 0,
+            child: AppBar(
+              title: Text(
+                state.manga?.title ?? '',
+                style: const TextStyle(color: Colors.black),
+              ),
+              iconTheme: const IconThemeData(color: Colors.black),
+              backgroundColor: Colors.grey[50],
             ),
-            iconTheme: const IconThemeData(color: Colors.black),
-            backgroundColor: Colors.grey[50],
           ),
         );
       }),
@@ -127,20 +130,23 @@ class _Explorer extends StatelessWidget {
           final double height =
               math.min(MediaQuery.of(context).size.height * 0.3, 300);
 
-          return AnimatedOpacity(
-            duration: Reader.animationDuration,
-            curve: Curves.decelerate,
-            opacity: state.uiIsVisible ? 1 : 0,
-            child: SizedBox(
-              height: height,
-              child: Observer(
-                builder: (context) => state.pageController != null
-                    ? ReaderExplorer(
-                        itemCount: state.pages?.length ?? 0,
-                        getPhotoUrl: (i) => state.pages[i].url,
-                        pageController: state.pageController,
-                      )
-                    : const SizedBox(),
+          return IgnorePointer(
+            ignoring: !state.uiIsVisible,
+            child: AnimatedOpacity(
+              duration: Reader.animationDuration,
+              curve: Curves.decelerate,
+              opacity: state.uiIsVisible ? 1 : 0,
+              child: SizedBox(
+                height: height,
+                child: Observer(
+                  builder: (context) => state.pageController != null
+                      ? ReaderExplorer(
+                          itemCount: state.pages?.length ?? 0,
+                          getPhotoUrl: (i) => state.pages[i].url,
+                          pageController: state.pageController,
+                        )
+                      : const SizedBox(),
+                ),
               ),
             ),
           );

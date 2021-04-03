@@ -87,10 +87,15 @@ class ReadingProgressionsDao extends DatabaseAccessor<Database>
   }
 
   /// Retrieve [Chapter] progress or null
-  Future<ReadingProgress> getChapterProgress(String chapterId) async {
+  Future<ReadingProgress> getChapterProgress(String chapterId) {
+    return watchChapterProgress(chapterId).first;
+  }
+
+  /// Retrieve [Chapter] progress or null
+  Stream<ReadingProgress> watchChapterProgress(String chapterId) {
     final query = select(readingProgressions)
       ..where((e) => e.chapterId.equals(chapterId));
-    return query.getSingle();
+    return query.watchSingle();
   }
 
   Stream<List<ReadingProgress>> watchLastProgressions() {

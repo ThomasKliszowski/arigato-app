@@ -9,6 +9,7 @@ import '../../protos/library.pb.dart' as protos;
 import '../../router/app_router.gr.dart';
 import '../../screens/manga_screen/state.dart';
 import '../../services/backend.dart';
+import 'chapter/chapter.dart';
 
 class MangaScreen extends HookWidget {
   const MangaScreen({
@@ -122,47 +123,21 @@ class _Chapters extends StatelessWidget {
                   delegate: SliverChildBuilderDelegate(
                     (context, i) {
                       final chapter = state.chapters[i];
-                      return _Chapter(
-                        key: ValueKey('chapter-${chapter.id}'),
-                        chapter: chapter,
-                      );
+                      return ChapterItem(
+                          key: ValueKey('chapter-${chapter.id}'),
+                          chapterId: chapter.id,
+                          chapter: chapter,
+                          onTap: () => AutoRouter.of(context).push(ReaderRoute(
+                                mangaId: chapter.mangaId,
+                                chapterId: chapter.id,
+                                manga: state.manga,
+                                chapter: chapter,
+                              )));
                     },
                     childCount: state.chapters.length,
                   )),
             )
           : const SliverToBoxAdapter(child: SizedBox()),
-    );
-  }
-}
-
-class _Chapter extends StatelessWidget {
-  const _Chapter({Key key, this.chapter}) : super(key: key);
-
-  final protos.Chapter chapter;
-
-  @override
-  Widget build(BuildContext context) {
-    final state = Provider.of<MangasScreenState>(context, listen: false);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => AutoRouter.of(context).push(ReaderRoute(
-        mangaId: chapter.mangaId,
-        chapterId: chapter.id,
-        manga: state.manga,
-        chapter: chapter,
-      )),
-      child: Container(
-        color: Colors.grey[100],
-        child: Center(
-          child: Text(
-            chapter.number.toStringAsFixed(0),
-            style: Theme.of(context).textTheme.subtitle2.copyWith(
-                  color: Colors.black,
-                  fontSize: 18,
-                ),
-          ),
-        ),
-      ),
     );
   }
 }

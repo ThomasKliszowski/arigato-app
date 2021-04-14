@@ -9,6 +9,8 @@ import 'backend/library.dart';
 class BackendService {
   static const kWssEndpoint = 'wss://api.arigatoapp.com/app/websocket';
   static const kHttpsEndpoint = 'https://api.arigatoapp.com/v1';
+  // static const kWssEndpoint = 'ws://localhost:4000/app/websocket';
+  // static const kHttpsEndpoint = 'http://localhost:4000/v1';
   PhoenixSocket _socket;
 
   static BackendService of(BuildContext context) =>

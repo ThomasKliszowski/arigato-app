@@ -26,7 +26,10 @@ class ReaderExplorer extends StatefulHookWidget {
 class _ReaderExplorerState extends State<ReaderExplorer> {
   @override
   Widget build(BuildContext context) {
-    final state = use(ReaderExplorerStateHook(widget.pageController));
+    final state = use(ReaderExplorerStateHook(
+      widget.pageController,
+      widget.itemCount,
+    ));
 
     return Provider(
       create: (_) => state,
@@ -35,20 +38,24 @@ class _ReaderExplorerState extends State<ReaderExplorer> {
           color: Colors.grey[50],
           boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)],
         ),
-        child: ScrollablePositionedList.separated(
-          initialScrollIndex: state.currentPage,
-          initialAlignment: 0.1,
-          itemScrollController: state.scrollController,
-          itemPositionsListener: state.scrollListener,
-          padding: const EdgeInsets.all(20),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, i) => _Page(
-            key: ValueKey('page-$i'),
-            pageNumber: i,
-            photoUrl: widget.getPhotoUrl(i),
-          ),
-          separatorBuilder: (_, __) => const SizedBox(width: 20),
-          itemCount: widget.itemCount,
+        child: Observer(
+          builder: (context) => state.itemCount > 0
+              ? ScrollablePositionedList.separated(
+                  initialScrollIndex: state.currentPage,
+                  initialAlignment: 0.1,
+                  itemScrollController: state.scrollController,
+                  itemPositionsListener: state.scrollListener,
+                  padding: const EdgeInsets.all(20),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, i) => _Page(
+                    key: ValueKey('page-$i'),
+                    pageNumber: i,
+                    photoUrl: widget.getPhotoUrl(i),
+                  ),
+                  separatorBuilder: (_, __) => const SizedBox(width: 20),
+                  itemCount: state.itemCount,
+                )
+              : const SizedBox(),
         ),
       ),
     );

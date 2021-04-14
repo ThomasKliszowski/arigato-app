@@ -35,10 +35,16 @@ abstract class ReaderStateBase with Store {
   protos.Chapter chapter;
 
   @observable
+  protos.Chapter nextChapter;
+
+  @observable
   List<protos.Page> pages;
 
   @observable
   bool uiIsVisible = false;
+
+  @observable
+  bool showNextChapter = false;
 
   void hideUI() {
     if (uiIsVisible == true) {
@@ -54,15 +60,26 @@ abstract class ReaderStateBase with Store {
 
   void toggleShowUI() => uiIsVisible = !uiIsVisible;
 
-  void onPageEvent() {
+  void _onPageEvent() {
     final pageCursor = pageController.page;
     final page = pageCursor.toInt();
     if (pageCursor == page) {
-      onPageChange(page);
+      _onPageChange(page);
     }
   }
 
-  Future<void> onPageChange(int page) async {
+  void _maybeShowNextChapter(int page) {
+    if (page == pages.length - 1) {
+      showNextChapter = true;
+      loadNextChapter();
+    } else {
+      showNextChapter = false;
+    }
+  }
+
+  Future<void> _onPageChange(int page) async {
+    _maybeShowNextChapter(page);
+
     await database.readingProgressionsDao.trackChapterProgress(
       mangaId: mangaId,
       chapterId: chapterId,
@@ -73,22 +90,29 @@ abstract class ReaderStateBase with Store {
     );
   }
 
+  Future<void> loadNextChapter() async {
+    nextChapter ??= await backend.library.findNextChapter(chapterId);
+  }
+
+  // -----
+
   Future<void> initialize() async {
     final readingProgress =
         await database.readingProgressionsDao.getChapterProgress(chapterId);
-    pageController =
-        PageController(initialPage: readingProgress?.lastPage ?? 0);
-    pageController.addListener(onPageEvent);
+    final initialPage = readingProgress?.lastPage ?? 0;
+    pageController = PageController(initialPage: initialPage)
+      ..addListener(_onPageEvent);
     final mangaRequest = backend.library.getManga(mangaId);
     final chapterRequest = backend.library.getChapter(chapterId);
     final pagesRequest = backend.library.getChapterPages(chapterId);
     manga = await mangaRequest;
     chapter = await chapterRequest;
     pages = (await pagesRequest).pages;
+    _maybeShowNextChapter(initialPage);
   }
 
   Future<void> dispose() async {
-    pageController.removeListener(onPageEvent);
+    pageController.removeListener(_onPageEvent);
     pageController.dispose();
   }
 }

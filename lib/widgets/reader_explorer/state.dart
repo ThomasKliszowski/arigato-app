@@ -16,6 +16,9 @@ abstract class ReaderExplorerStateBase with Store {
   @observable
   int currentPage;
 
+  @observable
+  int itemCount;
+
   void setActivePage(int index) {
     pageController.jumpToPage(index);
   }
@@ -66,9 +69,10 @@ abstract class ReaderExplorerStateBase with Store {
 }
 
 class ReaderExplorerStateHook extends hooks.Hook<ReaderExplorerState> {
-  const ReaderExplorerStateHook(this.pageController);
+  const ReaderExplorerStateHook(this.pageController, this.itemCount);
 
   final PageController pageController;
+  final int itemCount;
 
   @override
   _ReaderExplorerStateHookState createState() =>
@@ -83,11 +87,15 @@ class _ReaderExplorerStateHookState
   void initHook() {
     super.initHook();
     _state ??= ReaderExplorerState();
+    _state.itemCount = hook.itemCount;
     _state.initialize(hook.pageController);
   }
 
   @override
   void didUpdateHook(ReaderExplorerStateHook oldHook) {
+    if (_state.itemCount != hook.itemCount) {
+      _state.itemCount = hook.itemCount;
+    }
     super.didUpdateHook(oldHook);
   }
 

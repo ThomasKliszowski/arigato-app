@@ -21,7 +21,7 @@ class ReaderView extends StatelessWidget {
     return PhotoViewGestureDetectorScope(
       axis: Axis.horizontal,
       child: CustomPageView.builder(
-        cacheExtent: 3,
+        cacheExtent: 2,
         controller: pageController ?? PageController(),
         physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics()),
@@ -45,7 +45,7 @@ class _Page extends StatelessWidget {
     return ClipRect(
       child: PhotoView(
         key: ObjectKey(photoUrl),
-        backgroundDecoration: const BoxDecoration(),
+        backgroundDecoration: const BoxDecoration(color: Colors.black),
         imageProvider: CachedNetworkImageProvider(photoUrl),
         initialScale: PhotoViewComputedScale.contained,
         minScale: PhotoViewComputedScale.contained,

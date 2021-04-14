@@ -32,6 +32,11 @@ class BackendLibrary {
         ChaptersReply.create());
   }
 
+  Future<Chapter> findNextChapter(String chapterId) {
+    return _request('findNextChapter', FindNextChapterRequest(id: chapterId),
+        Chapter.create());
+  }
+
   Future<ChapterPagesReply> getChapterPages(String chapterId) async {
     return _request('getChapterPages',
         ChapterPagesRequest(chapterId: chapterId), ChapterPagesReply.create());

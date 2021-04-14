@@ -93,6 +93,16 @@ const ChapterRequest$json = const {
 
 /// Descriptor for `ChapterRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List chapterRequestDescriptor = $convert.base64Decode('Cg5DaGFwdGVyUmVxdWVzdBIOCgJpZBgBIAEoCVICaWQ=');
+@$core.Deprecated('Use findNextChapterRequestDescriptor instead')
+const FindNextChapterRequest$json = const {
+  '1': 'FindNextChapterRequest',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+  ],
+};
+
+/// Descriptor for `FindNextChapterRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List findNextChapterRequestDescriptor = $convert.base64Decode('ChZGaW5kTmV4dENoYXB0ZXJSZXF1ZXN0Eg4KAmlkGAEgASgJUgJpZA==');
 @$core.Deprecated('Use chaptersRequestDescriptor instead')
 const ChaptersRequest$json = const {
   '1': 'ChaptersRequest',

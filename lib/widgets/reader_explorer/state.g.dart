@@ -24,6 +24,21 @@ mixin _$ReaderExplorerState on ReaderExplorerStateBase, Store {
     });
   }
 
+  final _$itemCountAtom = Atom(name: 'ReaderExplorerStateBase.itemCount');
+
+  @override
+  int get itemCount {
+    _$itemCountAtom.reportRead();
+    return super.itemCount;
+  }
+
+  @override
+  set itemCount(int value) {
+    _$itemCountAtom.reportWrite(value, super.itemCount, () {
+      super.itemCount = value;
+    });
+  }
+
   final _$ReaderExplorerStateBaseActionController =
       ActionController(name: 'ReaderExplorerStateBase');
 
@@ -41,7 +56,8 @@ mixin _$ReaderExplorerState on ReaderExplorerStateBase, Store {
   @override
   String toString() {
     return '''
-currentPage: ${currentPage}
+currentPage: ${currentPage},
+itemCount: ${itemCount}
     ''';
   }
 }

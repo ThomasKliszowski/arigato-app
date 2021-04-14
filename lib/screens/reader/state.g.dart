@@ -54,6 +54,21 @@ mixin _$ReaderState on ReaderStateBase, Store {
     });
   }
 
+  final _$nextChapterAtom = Atom(name: 'ReaderStateBase.nextChapter');
+
+  @override
+  protos.Chapter get nextChapter {
+    _$nextChapterAtom.reportRead();
+    return super.nextChapter;
+  }
+
+  @override
+  set nextChapter(protos.Chapter value) {
+    _$nextChapterAtom.reportWrite(value, super.nextChapter, () {
+      super.nextChapter = value;
+    });
+  }
+
   final _$pagesAtom = Atom(name: 'ReaderStateBase.pages');
 
   @override
@@ -84,14 +99,31 @@ mixin _$ReaderState on ReaderStateBase, Store {
     });
   }
 
+  final _$showNextChapterAtom = Atom(name: 'ReaderStateBase.showNextChapter');
+
+  @override
+  bool get showNextChapter {
+    _$showNextChapterAtom.reportRead();
+    return super.showNextChapter;
+  }
+
+  @override
+  set showNextChapter(bool value) {
+    _$showNextChapterAtom.reportWrite(value, super.showNextChapter, () {
+      super.showNextChapter = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 pageController: ${pageController},
 manga: ${manga},
 chapter: ${chapter},
+nextChapter: ${nextChapter},
 pages: ${pages},
-uiIsVisible: ${uiIsVisible}
+uiIsVisible: ${uiIsVisible},
+showNextChapter: ${showNextChapter}
     ''';
   }
 }

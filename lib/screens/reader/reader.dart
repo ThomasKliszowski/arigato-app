@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../database/database.dart';
 import '../../protos/library.pb.dart' as protos;
+import '../../router/app_router.gr.dart';
 import '../../screens/reader/state.dart';
 import '../../services/backend.dart';
 import '../../widgets/reader_explorer/reader_explorer.dart';
@@ -47,13 +48,14 @@ class _ReaderState extends State<Reader> {
     return Provider(
       create: (_) => state,
       child: Scaffold(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.black,
         body: Stack(
           fit: StackFit.expand,
           children: const [
             _ReaderView(),
             _AppBar(),
             _Explorer(),
+            _NextChapter(),
           ],
         ),
       ),
@@ -152,6 +154,73 @@ class _Explorer extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _NextChapter extends StatelessWidget {
+  const _NextChapter({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<ReaderState>(context);
+    return Observer(
+      builder: (context) => state.showNextChapter &&
+              !state.uiIsVisible &&
+              state.nextChapter != null
+          ? Positioned(
+              right: 10,
+              bottom: 10,
+              child: SafeArea(
+                top: false,
+                left: false,
+                child: GestureDetector(
+                  onTap: () {
+                    AutoRouter.of(context).replace(ReaderRoute(
+                      manga: state.manga,
+                      mangaId: state.manga.id,
+                      chapter: state.nextChapter,
+                      chapterId: state.nextChapter.id,
+                    ));
+                  },
+                  child: Container(
+                    decoration: const ShapeDecoration(
+                      color: Colors.white,
+                      shape: StadiumBorder(),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Prochain chapitre',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  .copyWith(color: Colors.grey[500])),
+                          RichText(
+                              text: TextSpan(
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                  children: [
+                                TextSpan(
+                                    text: state.nextChapter.number
+                                        .toStringAsFixed(0)),
+                                const TextSpan(text: ' : '),
+                                TextSpan(
+                                    text: state.nextChapter.title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption
+                                        .copyWith(
+                                            color: Colors.black, fontSize: 16)),
+                              ])),
+                        ]),
+                  ),
+                ),
+              ),
+            )
+          : const SizedBox(),
     );
   }
 }

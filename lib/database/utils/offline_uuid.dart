@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:moor/moor.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../services/secureStorage.dart';
+import '../../services/secure_storage.dart';
 
 /// Create a strong random unique ID using the microsecond timestamp,
 /// the local terminal id and a random value.

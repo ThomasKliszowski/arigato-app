@@ -3,15 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'application.dart';
-import 'database/database.dart';
+import 'database/executor/shared.dart';
 import 'services/backend.dart';
 import 'services/terminal.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await setupDatabase();
+  final database = await openDatabase();
   final backend = BackendService();
-  final database = await Database.openDatabaseOnIsolate();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.grey[50],

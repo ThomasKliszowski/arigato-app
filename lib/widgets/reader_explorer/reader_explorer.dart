@@ -1,3 +1,4 @@
+import 'package:arigato/database/utils/statically.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -38,25 +39,28 @@ class _ReaderExplorerState extends State<ReaderExplorer> {
           color: Colors.grey[50],
           boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)],
         ),
-        child: Observer(
-          builder: (context) => state.itemCount > 0
-              ? ScrollablePositionedList.separated(
-                  initialScrollIndex: state.currentPage,
-                  initialAlignment: 0.1,
-                  itemScrollController: state.scrollController,
-                  itemPositionsListener: state.scrollListener,
-                  padding: const EdgeInsets.all(20),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, i) => _Page(
-                    key: ValueKey('page-$i'),
-                    pageNumber: i,
-                    photoUrl: widget.getPhotoUrl(i),
-                  ),
-                  separatorBuilder: (_, __) => const SizedBox(width: 20),
-                  itemCount: state.itemCount,
-                )
-              : const SizedBox(),
-        ),
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Observer(
+            builder: (context) => state.itemCount > 0
+                ? ScrollablePositionedList.separated(
+                    initialScrollIndex: state.currentPage,
+                    initialAlignment: 0.1,
+                    itemScrollController: state.scrollController,
+                    itemPositionsListener: state.scrollListener,
+                    padding: const EdgeInsets.all(20),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, i) => _Page(
+                      key: ValueKey('page-$i'),
+                      pageNumber: i,
+                      photoUrl: widget.getPhotoUrl(i),
+                      maxHeight: constraints.maxHeight,
+                    ),
+                    separatorBuilder: (_, __) => const SizedBox(width: 20),
+                    itemCount: state.itemCount,
+                  )
+                : const SizedBox(),
+          );
+        }),
       ),
     );
   }
@@ -67,14 +71,17 @@ class _Page extends StatelessWidget {
     Key key,
     @required this.pageNumber,
     @required this.photoUrl,
+    @required this.maxHeight,
   }) : super(key: key);
 
   final int pageNumber;
   final String photoUrl;
+  final double maxHeight;
 
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<ReaderExplorerState>(context);
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
     return GestureDetector(
       onTap: () => state.setActivePage(pageNumber),
@@ -82,7 +89,11 @@ class _Page extends StatelessWidget {
         children: [
           Expanded(
             child: CachedNetworkImage(
-              imageUrl: photoUrl,
+              imageUrl: Statically.buildUrl(
+                photoUrl,
+                height: (maxHeight * devicePixelRatio).toInt(),
+                q: 50,
+              ),
               placeholder: (context, _) =>
                   const AspectRatio(aspectRatio: 2 / 3),
               imageBuilder: (context, imageProvider) => Stack(

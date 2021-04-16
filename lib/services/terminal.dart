@@ -1,5 +1,5 @@
 import 'backend.dart';
-import 'secureStorage.dart';
+import 'secure_storage.dart';
 
 class TerminalService {
   static Future<void> ensureTerminalCreated(BackendService backend) async {

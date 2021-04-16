@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:arigato/database/utils/statically.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class MangaScreen extends HookWidget {
                         ? CachedNetworkImage(
                             fit: BoxFit.fitWidth,
                             alignment: Alignment.topCenter,
-                            imageUrl: state.manga.cover,
+                            imageUrl: Statically.buildUrl(state.manga.cover),
                             height: MediaQuery.of(context).size.height * 0.6)
                         : Container(
                             color: Colors.grey[200],

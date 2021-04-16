@@ -1,3 +1,4 @@
+import 'package:arigato/database/utils/statically.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
@@ -46,7 +47,8 @@ class _Page extends StatelessWidget {
       child: PhotoView(
         key: ObjectKey(photoUrl),
         backgroundDecoration: const BoxDecoration(color: Colors.black),
-        imageProvider: CachedNetworkImageProvider(photoUrl),
+        imageProvider:
+            CachedNetworkImageProvider(Statically.buildUrl(photoUrl)),
         initialScale: PhotoViewComputedScale.contained,
         minScale: PhotoViewComputedScale.contained,
         maxScale: 2.0,

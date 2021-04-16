@@ -1,3 +1,4 @@
+import 'package:arigato/database/utils/statically.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +127,7 @@ class _Reading extends StatelessWidget {
                   if (reading.manga?.cover?.isNotEmpty == true)
                     CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl: reading.manga.cover,
+                      imageUrl: Statically.buildUrl(reading.manga.cover),
                     )
                   else
                     Container(color: Colors.grey[200]),
@@ -231,7 +232,7 @@ class _MangaItem extends StatelessWidget {
               child: manga.cover?.isNotEmpty == true
                   ? CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl: manga.cover,
+                      imageUrl: Statically.buildUrl(manga.cover),
                     )
                   : Container(color: Colors.grey[200]),
             ),

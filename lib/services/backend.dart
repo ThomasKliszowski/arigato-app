@@ -3,8 +3,8 @@ import 'package:phoenix_socket/phoenix_socket.dart';
 import 'package:provider/provider.dart';
 
 import '../services/backend/terminal.dart';
-import '../services/secureStorage.dart';
 import 'backend/library.dart';
+import 'secure_storage.dart';
 
 class BackendService {
   static const kWssEndpoint = 'wss://api.arigatoapp.com/app/websocket';

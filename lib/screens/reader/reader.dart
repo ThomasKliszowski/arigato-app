@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ import '../../protos/library.pb.dart' as protos;
 import '../../router/app_router.gr.dart';
 import '../../screens/reader/state.dart';
 import '../../services/backend.dart';
+import '../../utils/double.dart';
 import '../../widgets/reader_explorer/reader_explorer.dart';
 import '../../widgets/reader_view.dart';
 
@@ -34,6 +36,18 @@ class Reader extends StatefulHookWidget {
 }
 
 class _ReaderState extends State<Reader> {
+  @override
+  void didChangeDependencies() {
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = use(ReaderStateHook(
@@ -96,6 +110,9 @@ class _AppBar extends StatelessWidget {
       left: 0,
       right: 0,
       child: Observer(builder: (context) {
+        final mangaTitle = state.manga?.title ?? '';
+        final chapterNumber = state.chapter?.number?.normalize() ?? '';
+        final chapterTitle = state.chapter?.title ?? '';
         return IgnorePointer(
           ignoring: !state.uiIsVisible,
           child: AnimatedOpacity(
@@ -103,9 +120,18 @@ class _AppBar extends StatelessWidget {
             duration: Reader.animationDuration,
             opacity: state.uiIsVisible ? 1 : 0,
             child: AppBar(
-              title: Text(
-                state.manga?.title ?? '',
-                style: const TextStyle(color: Colors.black),
+              title: Column(
+                children: [
+                  Text(
+                    mangaTitle,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  const SizedBox(height: 1),
+                  Text(
+                    'Chapitre $chapterNumber: $chapterTitle',
+                    style: TextStyle(color: Colors.grey[500], fontSize: 11),
+                  ),
+                ],
               ),
               iconTheme: const IconThemeData(color: Colors.black),
               backgroundColor: Colors.grey[50],
@@ -204,8 +230,7 @@ class _NextChapter extends StatelessWidget {
                                       color: Colors.black, fontSize: 16),
                                   children: [
                                 TextSpan(
-                                    text: state.nextChapter.number
-                                        .toStringAsFixed(0)),
+                                    text: state.nextChapter.number.normalize()),
                                 const TextSpan(text: ' : '),
                                 TextSpan(
                                     text: state.nextChapter.title,

@@ -1,11 +1,10 @@
-import 'package:arigato/database/utils/statically.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import '../../widgets/optimized_image.dart';
 import '../../widgets/reader_explorer/state.dart';
 
 class ReaderExplorer extends StatefulHookWidget {
@@ -81,19 +80,15 @@ class _Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<ReaderExplorerState>(context);
-    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
-
     return GestureDetector(
       onTap: () => state.setActivePage(pageNumber),
       child: Column(
         children: [
           Expanded(
-            child: CachedNetworkImage(
-              imageUrl: Statically.buildUrl(
-                photoUrl,
-                height: (maxHeight * devicePixelRatio).toInt(),
-                q: 50,
-              ),
+            child: OptimizedImage(
+              url: photoUrl,
+              optimizedAxis: Axis.vertical,
+              quality: 50,
               placeholder: (context, _) =>
                   const AspectRatio(aspectRatio: 2 / 3),
               imageBuilder: (context, imageProvider) => Stack(

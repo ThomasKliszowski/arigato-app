@@ -1,6 +1,4 @@
-import 'package:arigato/database/utils/statically.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,6 +8,8 @@ import '../../database/database.dart';
 import '../../protos/library.pb.dart' as protos;
 import '../../router/app_router.gr.dart';
 import '../../services/backend.dart';
+import '../../utils/double.dart';
+import '../../widgets/optimized_image.dart';
 import 'state.dart';
 
 class MangasListScreen extends HookWidget {
@@ -108,7 +108,7 @@ class _Reading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final progress = (reading.progress.progress * 100).round();
-    final chapterNumber = reading.chapter.number.toStringAsFixed(0);
+    final chapterNumber = reading.chapter.number.normalize();
     return GestureDetector(
       onTap: () => AutoRouter.of(context).push(ReaderRoute(
         mangaId: reading.manga.id,
@@ -125,9 +125,10 @@ class _Reading extends StatelessWidget {
                 fit: StackFit.passthrough,
                 children: [
                   if (reading.manga?.cover?.isNotEmpty == true)
-                    CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: Statically.buildUrl(reading.manga.cover),
+                    OptimizedImage(
+                      url: reading.manga.cover,
+                      optimizedAxis: Axis.vertical,
+                      quality: 60,
                     )
                   else
                     Container(color: Colors.grey[200]),
@@ -230,9 +231,9 @@ class _MangaItem extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: manga.cover?.isNotEmpty == true
-                  ? CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: Statically.buildUrl(manga.cover),
+                  ? OptimizedImage(
+                      url: manga.cover,
+                      optimizedAxis: Axis.vertical,
                     )
                   : Container(color: Colors.grey[200]),
             ),

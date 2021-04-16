@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../database/database.dart';
 import '../../../protos/library.pb.dart' as protos;
 import '../../../services/backend.dart';
+import '../../../utils/double.dart';
 import 'state.dart';
 
 class ChapterItem extends HookWidget {
@@ -57,7 +58,7 @@ class _Content extends StatelessWidget {
             child: Observer(
               builder: (context) => state.chapter?.number != null
                   ? Text(
-                      state.chapter.number.toStringAsFixed(0),
+                      state.chapter.number.normalize(),
                       style: Theme.of(context).textTheme.subtitle2.copyWith(
                             color: const Color(0xff555555),
                             fontSize: 20,

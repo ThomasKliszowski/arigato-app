@@ -1,8 +1,6 @@
 import 'dart:ui';
 
-import 'package:arigato/database/utils/statically.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,6 +10,7 @@ import '../../protos/library.pb.dart' as protos;
 import '../../router/app_router.gr.dart';
 import '../../screens/manga_screen/state.dart';
 import '../../services/backend.dart';
+import '../../widgets/optimized_image.dart';
 import 'chapter/chapter.dart';
 
 class MangaScreen extends HookWidget {
@@ -41,16 +40,20 @@ class MangaScreen extends HookWidget {
             CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                  child: Observer(
-                    builder: (context) => state.manga?.cover != null
-                        ? CachedNetworkImage(
-                            fit: BoxFit.fitWidth,
-                            alignment: Alignment.topCenter,
-                            imageUrl: Statically.buildUrl(state.manga.cover),
-                            height: MediaQuery.of(context).size.height * 0.6)
-                        : Container(
-                            color: Colors.grey[200],
-                            height: MediaQuery.of(context).size.height * 0.6),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: Observer(
+                      builder: (context) => state.manga?.cover != null
+                          ? OptimizedImage(
+                              fit: BoxFit.fitWidth,
+                              alignment: Alignment.topCenter,
+                              optimizedAxis: Axis.vertical,
+                              url: state.manga.cover,
+                            )
+                          : Container(
+                              color: Colors.grey[200],
+                              height: MediaQuery.of(context).size.height * 0.6),
+                    ),
                   ),
                 ),
                 SliverToBoxAdapter(

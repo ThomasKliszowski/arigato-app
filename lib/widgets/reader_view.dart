@@ -1,8 +1,8 @@
-import 'package:arigato/database/utils/statically.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
+import '../utils/statically.dart';
 import '../widgets/page_view.dart';
 
 class ReaderView extends StatelessWidget {

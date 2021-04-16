@@ -29,7 +29,7 @@ class Statically {
       'f=auto',
       'q=$q',
       if (width != null) 'w=$width',
-      if (height != null) 'w=$height',
+      if (height != null) 'h=$height',
     ].join(',');
   }
 }

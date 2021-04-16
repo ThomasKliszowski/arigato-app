@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart' as hooks;
 import 'package:mobx/mobx.dart';
 
@@ -48,17 +49,25 @@ abstract class ReaderStateBase with Store {
 
   void hideUI() {
     if (uiIsVisible == true) {
+      SystemChrome.setEnabledSystemUIOverlays([]);
       uiIsVisible = false;
     }
   }
 
   void showUI() {
     if (uiIsVisible == false) {
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
       uiIsVisible = true;
     }
   }
 
-  void toggleShowUI() => uiIsVisible = !uiIsVisible;
+  void toggleShowUI() {
+    if (uiIsVisible == true) {
+      hideUI();
+    } else {
+      showUI();
+    }
+  }
 
   void _onPageEvent() {
     final pageCursor = pageController.page;

@@ -9,6 +9,14 @@ part of 'state.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ReaderState on ReaderStateBase, Store {
+  Computed<int> _$pagesCountComputed;
+
+  @override
+  int get pagesCount =>
+      (_$pagesCountComputed ??= Computed<int>(() => super.pagesCount,
+              name: 'ReaderStateBase.pagesCount'))
+          .value;
+
   final _$pageControllerAtom = Atom(name: 'ReaderStateBase.pageController');
 
   @override
@@ -114,6 +122,21 @@ mixin _$ReaderState on ReaderStateBase, Store {
     });
   }
 
+  final _$currentPageAtom = Atom(name: 'ReaderStateBase.currentPage');
+
+  @override
+  int get currentPage {
+    _$currentPageAtom.reportRead();
+    return super.currentPage;
+  }
+
+  @override
+  set currentPage(int value) {
+    _$currentPageAtom.reportWrite(value, super.currentPage, () {
+      super.currentPage = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
@@ -123,7 +146,9 @@ chapter: ${chapter},
 nextChapter: ${nextChapter},
 pages: ${pages},
 uiIsVisible: ${uiIsVisible},
-showNextChapter: ${showNextChapter}
+showNextChapter: ${showNextChapter},
+currentPage: ${currentPage},
+pagesCount: ${pagesCount}
     ''';
   }
 }

@@ -47,6 +47,12 @@ abstract class ReaderStateBase with Store {
   @observable
   bool showNextChapter = false;
 
+  @observable
+  int currentPage;
+
+  @computed
+  int get pagesCount => pages?.length;
+
   void hideUI() {
     if (uiIsVisible == true) {
       SystemChrome.setEnabledSystemUIOverlays([]);
@@ -87,6 +93,7 @@ abstract class ReaderStateBase with Store {
   }
 
   Future<void> _onPageChange(int page) async {
+    currentPage = page;
     _maybeShowNextChapter(page);
 
     await database.readingProgressionsDao.trackChapterProgress(
@@ -109,6 +116,7 @@ abstract class ReaderStateBase with Store {
     final readingProgress =
         await database.readingProgressionsDao.getChapterProgress(chapterId);
     final initialPage = readingProgress?.lastPage ?? 0;
+    currentPage = initialPage;
     pageController = PageController(initialPage: initialPage)
       ..addListener(_onPageEvent);
     final mangaRequest = backend.library.getManga(mangaId);

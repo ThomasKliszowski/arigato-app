@@ -19,6 +19,7 @@ part 'reading_progressions.moor.dart';
   ON
     reading_progressions.manga_id = latest_reading_progressions.manga_id AND
     reading_progressions.chapter_number = latest_reading_progressions.chapter_number
+  ORDER BY reading_progressions.updated_at DESC
   LIMIT :limit
   '''
   },

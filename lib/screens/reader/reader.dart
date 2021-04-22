@@ -70,6 +70,7 @@ class _ReaderState extends State<Reader> {
             _AppBar(),
             _Explorer(),
             _NextChapter(),
+            _ChapterInformations(),
           ],
         ),
       ),
@@ -120,18 +121,24 @@ class _AppBar extends StatelessWidget {
             duration: Reader.animationDuration,
             opacity: state.uiIsVisible ? 1 : 0,
             child: AppBar(
-              title: Column(
-                children: [
-                  Text(
-                    mangaTitle,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 1),
-                  Text(
-                    'Chapitre $chapterNumber: $chapterTitle',
-                    style: TextStyle(color: Colors.grey[500], fontSize: 11),
-                  ),
-                ],
+              centerTitle: false,
+              titleSpacing: 0,
+              title: Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      mangaTitle,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    const SizedBox(height: 1),
+                    Text(
+                      'Chapitre $chapterNumber: $chapterTitle',
+                      style: TextStyle(color: Colors.grey[500], fontSize: 11),
+                    ),
+                  ],
+                ),
               ),
               iconTheme: const IconThemeData(color: Colors.black),
               backgroundColor: Colors.grey[50],
@@ -246,6 +253,58 @@ class _NextChapter extends StatelessWidget {
               ),
             )
           : const SizedBox(),
+    );
+  }
+}
+
+class _ChapterInformations extends StatelessWidget {
+  const _ChapterInformations({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<ReaderState>(context);
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Observer(builder: (context) {
+                final chapterNumber = state.chapter?.number?.normalize();
+                final chapterTitle = state.chapter?.title;
+                String text = '';
+                if (chapterNumber != null && chapterTitle != null) {
+                  text = 'Chapitre $chapterNumber: $chapterTitle';
+                } else if (chapterNumber != null) {
+                  text = 'Chapitre $chapterNumber';
+                } else if (chapterTitle != null) {
+                  text = chapterTitle;
+                }
+                return Text(
+                  text,
+                  style: const TextStyle(color: Colors.white54, fontSize: 10),
+                );
+              }),
+              Observer(builder: (context) {
+                if (state.currentPage == null || state.pagesCount == null) {
+                  return const SizedBox();
+                }
+                final pagesCount = state.pagesCount;
+                final currentPage = state.currentPage + 1;
+                return Text(
+                  '$currentPage/$pagesCount',
+                  style: const TextStyle(color: Colors.white54, fontSize: 10),
+                );
+              }),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

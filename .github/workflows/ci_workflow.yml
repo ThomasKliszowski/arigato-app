@@ -1,0 +1,33 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  deploy_android:
+    name: Deploy Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: stable
+      - name: Setup credentials
+        env:
+          STORE_FILE_B64: ${{ secrets.ANDROID_STORE_FILE_B64 }}
+          STORE_FILE: /tmp/evoluflor_key
+          STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo -n $STORE_FILE_B64 | base64 -d > $STORE_FILE
+          cat > android/key.properties << EOF
+          storePassword=$STORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=key
+          storeFile=$STORE_FILE
+          EOF
+      - uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: android internal
